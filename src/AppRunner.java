@@ -43,6 +43,10 @@ public class AppRunner {
             System.out.println("Неверный выбор");
             return;
         }
+        AppRunner app = new AppRunner(receiver);
+        while (!isExit) {
+            app.startSimulation();
+        }
     }
     private void startSimulation() {
         print("В автомате доступны:");
