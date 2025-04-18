@@ -27,12 +27,23 @@ public class AppRunner {
     }
 
     public static void run() {
-        AppRunner app = new AppRunner();
-        while (!isExit) {
-            app.startSimulation();
+        System.out.println("Выберите способ оплаты:");
+        System.out.println("1 - Монеты");
+        System.out.println("2 - Купюры");
+
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine();
+
+        MoneyReceiver receiver;
+        if ("1".equals(choice)) {
+            receiver = new CoinAcceptor(100);
+        } else if ("2".equals(choice)) {
+            receiver = new BanknoteReceiver(100);
+        } else {
+            System.out.println("Неверный выбор");
+            return;
         }
     }
-
     private void startSimulation() {
         print("В автомате доступны:");
         showProducts(products);
