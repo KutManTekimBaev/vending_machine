@@ -75,15 +75,24 @@ public class AppRunner {
         showActions(products);
         print(" h - Выйти");
         String action = fromConsole().substring(0, 1);
-        if (moneyReceiver instanceof BanknoteReceiver banknoteReceiver) {
-            banknoteReceiver.interactivelyAddMoney();
-        } else {
-            moneyReceiver.addMoney(10);
-            print("Вы пополнили баланс на 10");
+
+        if ("a".equalsIgnoreCase(action)) {
+            if (moneyReceiver instanceof BanknoteReceiver banknoteReceiver) {
+                banknoteReceiver.interactivelyAddMoney();
+            } else {
+                moneyReceiver.addMoney(10);
+                print("Вы пополнили баланс на 10");
+            }
+            return;
         }
+
+        if ("h".equalsIgnoreCase(action)) {
+            isExit = true;
+            return;
+        }
+
         try {
             ActionLetter letter = ActionLetter.valueOf(action.toUpperCase());
-
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getActionLetter().equals(letter)) {
                     if (moneyReceiver.getBalance() >= products.get(i).getPrice()) {
@@ -92,19 +101,15 @@ public class AppRunner {
                     } else {
                         print("Недостаточно средств для покупки.");
                     }
-                    break;
+                    return;
                 }
             }
-
+            print("Товар с такой буквой не найден.");
         } catch (IllegalArgumentException e) {
-            if ("h".equalsIgnoreCase(action)) {
-                isExit = true;
-            } else {
-                print("Недопустимая буква. Попробуйте ещё раз.");
-                chooseAction(products);
-            }
+            print("Недопустимая буква. Попробуйте ещё раз.");
         }
     }
+
 
     private void showActions(UniversalArray<Product> products) {
         for (int i = 0; i < products.size(); i++) {
