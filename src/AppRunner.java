@@ -14,7 +14,8 @@ public class AppRunner {
 
     private static boolean isExit = false;
 
-    private AppRunner() {
+    public AppRunner(MoneyReceiver moneyReceiver) {
+        this.moneyReceiver = moneyReceiver;
         products.addAll(new Product[]{
                 new Water(ActionLetter.B, 20),
                 new CocaCola(ActionLetter.C, 50),
@@ -23,7 +24,6 @@ public class AppRunner {
                 new Mars(ActionLetter.F, 80),
                 new Pistachios(ActionLetter.G, 130)
         });
-        coinAcceptor = new CoinAcceptor(100);
     }
 
     public static void run() {
