@@ -67,23 +67,28 @@ public class AppRunner {
             print("Вы пополнили баланс на 10");
         }
         try {
+            ActionLetter letter = ActionLetter.valueOf(action.toUpperCase());
+
             for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getActionLetter().equals(ActionLetter.valueOf(action.toUpperCase()))) {
-                    coinAcceptor.setAmount(coinAcceptor.getAmount() - products.get(i).getPrice());
-                    print("Вы купили " + products.get(i).getName());
+                if (products.get(i).getActionLetter().equals(letter)) {
+                    if (moneyReceiver.getBalance() >= products.get(i).getPrice()) {
+                        moneyReceiver.deduct(products.get(i).getPrice());
+                        print("Вы купили " + products.get(i).getName());
+                    } else {
+                        print("Недостаточно средств для покупки.");
+                    }
                     break;
                 }
             }
+
         } catch (IllegalArgumentException e) {
             if ("h".equalsIgnoreCase(action)) {
                 isExit = true;
             } else {
-                print("Недопустимая буква. Попрбуйте еще раз.");
+                print("Недопустимая буква. Попробуйте ещё раз.");
                 chooseAction(products);
             }
         }
-
-
     }
 
     private void showActions(UniversalArray<Product> products) {
